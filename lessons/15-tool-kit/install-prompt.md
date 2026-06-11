@@ -18,7 +18,7 @@ You (Claude) are helping the user equip their machine with the tools agents reac
 
 4. **Offer to install the missing ones** — via their stated route only, with confirmation, skipping any they don't want. Don't push tools for media/document work they never do; ask what kinds of files their projects actually touch.
 
-5. **Offer the matching global rule variant** (below) for `~/.claude/CLAUDE.md` — show it, confirm, merge.
+5. **Offer the matching global rule variant** (below) for `~/.claude/CLAUDE.md` — substitute the manager named in step 1 for `<their package manager>` (no placeholder may survive into the written rule), show it, confirm, merge. Create the file if absent; if a Missing Tools section already exists, show both versions and ask before changing it.
 
 ## Starter kit (what agents repeatedly reach for — as of June 2026)
 

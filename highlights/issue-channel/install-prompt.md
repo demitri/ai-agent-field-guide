@@ -1,12 +1,12 @@
 <!-- Human: paste this file into a Claude Code session (or @-reference it) and
      Claude will help you stand up an agent-to-agent issue channel between two
      of your repos. To do it by hand instead: adapt the protocol skeleton at
-     the bottom into <producer-repo>/AI/ISSUE_CHANNEL.md, fill in its
+     the bottom into your producer repo's agent-docs directory, fill in its
      parameters table, and create the labels it names. -->
 
 # Setup task: an agent-to-agent issue channel between two repos
 
-You (Claude) are helping the user connect two of their repositories — a producer and a consumer — so that agent sessions on each side communicate through GitHub issues instead of through the user. Inspect first, interview one question at a time, show before writing, merge — never clobber.
+You (Claude) are helping the user connect two of their repositories — a producer and a consumer — so that agent sessions on each side communicate through GitHub issues instead of through the user. Inspect first, interview one question at a time, show before writing, merge — never clobber. If any command in this setup fails, show the user the raw error and stop — never improvise past a failed step.
 
 ## Step 0 — gate on the prerequisite
 
@@ -14,25 +14,29 @@ This channel automates a worn path; it cannot create one. Ask, one question at a
 
 1. Have failure reports actually been carried between these two repos by hand (memos, pasted reports) more than a few times?
 2. Can the recurring failures be named as *classes* (enumerated error codes, named categories) rather than described ad hoc each time?
-3. Is there a command the consumer side can run to verify a producer fix, and an observable signal that a fix is actually deployed and live?
+3. Is there a command the consumer side can run to verify a producer fix, and an observable signal that a fix is actually deployed and live (a version header, a build hash, a package version)?
 
-If the answers are mostly no, say so and stop: recommend the user keep hand-carrying while the path narrows. The manual era is where failure classes, guardrails, and verification commands get hard-won — installing the channel before then is automating guesswork.
+Decision rule: proceed only if 2 and 3 are both yes — the protocol's verification and close steps run on them. Otherwise say so and stop: recommend the user keep hand-carrying while the path narrows. The manual era is where failure classes, guardrails, and verification commands get hard-won — installing the channel before then is automating guesswork. (A "no" on 1 is a strong caution: if reports have never been hand-carried, the need is still hypothetical.)
 
-## Inspect
+## Preflight (stop on any failure and say what's missing)
 
-- `gh auth status` — confirm `gh` works on this machine and note which identity it acts as.
-- Confirm issues are enabled on the intended channel repo, and whether the repos are private or public (the channel will carry error excerpts and file paths).
+- `gh auth status` — if `gh` is absent or unauthenticated, stop: name the tool, what it's for (all channel traffic flows through it), and let the user install or authenticate before resuming. Note which identity each side will act as, and whether the user is on github.com or a GitHub Enterprise host (on GHES, authenticate `gh` against that hostname and use `-R <host>/<owner>/<repo>` everywhere a command below says `-R <owner>/<repo>`).
+- Confirm issues are enabled on the intended channel repo. If not, stop: the user enables them under repo Settings → General → Features → Issues.
+- Probe real permissions, not just auth: `gh api repos/<owner>/<repo>/labels` on the channel repo. If it fails (org policy, PAT scope), surface the error — issue read/write for both identities is the minimum, and an org admin may need to grant it.
+- Locate the local clone of the repo that will hold the protocol file; confirm `git remote get-url origin` matches the GitHub repo the user named.
+- Check whether the channel repo is private or public. If public, warn explicitly: the protocol requires VERBATIM error excerpts and probe output in issue bodies. Agree on a redaction rule (no secrets, tokens, customer data, or private paths) and carry it into the protocol file's Principles.
 - Determine whether the two sides will authenticate as the *same* GitHub user (common: one human account, or one shared PAT). This decides whether speaker identity must be carried in comment text.
-- If a scoped PAT is involved: fine-grained PATs often break `gh`'s GraphQL-backed subcommands (`gh issue create`, sometimes `edit`/`close`) while REST works — the skeleton's command table carries the fallbacks.
+- If a scoped PAT is involved: fine-grained PATs often break `gh`'s GraphQL-backed subcommands while REST works — the skeleton's §gh table carries the REST fallbacks.
 
-## Interview (one question at a time; adapt to what inspection found)
+## Interview (one question at a time; adapt to what preflight found)
 
-1. Which repo is the **producer** (triages and fixes) and which the **consumer** (files failures)?
+1. Which repo is the **producer** (triages and fixes) and which the **consumer** (files failures)? Get each as a full `owner/repo` path — for personal repos the owner is the username `gh auth status` shows. If producer and consumer turn out to be the same repo (two subsystems rather than two repos), the channel still works: sides are roles, not repos; keep both labels and prefixes.
 2. Which repo hosts the channel? (Default: the producer's issue tracker — that's where the work lands.)
 3. Same GitHub identity on both sides? If yes, speaker prefixes are mandatory; if the sides have distinct accounts or bot identities, prefixes become optional decoration.
 4. Label names — defaults: `from-<consumer>`, `needs-<producer>`, `needs-<consumer>`, `needs-decision`, plus an optional severity label (e.g. `blocker`). Their names, their choice.
-5. What is the **deploy signal** — the observable thing that changes when a producer fix is genuinely live (a version header, a build-hash endpoint, a package version)? Ask; never invent one. If none exists, flag it as the missing prerequisite it is.
+5. Pin down the **deploy signal** confirmed in step 0: the exact command and the field or header it reads. Never invent one — without it the close protocol cannot carry deploy evidence, and the install must not proceed.
 6. Who answers `needs-decision`? (Usually the user themselves, replying in the issue thread.)
+7. Where do agent-facing docs live in each repo (a docs/ or AI/ directory, or the repo root)? The protocol file goes in the producer repo's; both repos get a pointer.
 
 ## Invariants vs. choices
 
@@ -47,9 +51,25 @@ Hold these invariant — each one was forged by a specific failure, and weakenin
 
 Everything else — label names, polling cadence, severity tiers, how each side parallelizes its work — is the user's choice. Record their answers in the skeleton's parameters table.
 
-## Write the protocol file
+## Install
 
-Adapt the skeleton below with the interview answers and write it to the producer repo's agent-docs directory (e.g. `AI/ISSUE_CHANNEL.md`) as the **single file of record** — if either repo's agent instructions (CLAUDE.md, `AI/START_HERE.md`) should know about it, add a one-line pointer from both sides; never duplicate the protocol. Show the full adapted text before writing. Then create the labels (one-time; `gh api repos/<owner>/<repo>/labels -f name=… -f color=… -f description=…` works where `gh label create` fails under a restricted PAT).
+1. Adapt the skeleton below with the interview answers. Replace every `<placeholder>` — none may survive into the written file. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
+2. Create the labels idempotently: list existing labels first, create only the missing ones, and never change an existing label's color or description without asking. Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`. One command per label:
+   ```bash
+   gh api repos/<owner>/<channel-repo>/labels -f name="needs-<producer>" -f color="d93f0b" -f description="awaiting producer action"
+   ```
+3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. Never duplicate the protocol itself.
+
+## Verify, then hand over
+
+Prove the channel works without waiting for a real incident:
+
+- Run both §Polling queries — they must return cleanly (empty is fine).
+- Re-list the labels and confirm every required one exists.
+- Confirm both pointer lines exist in the two repos' instruction files.
+- Optionally, with the user's approval: file a clearly-marked dry-run issue, walk it through one comment + turn-label flip, and close it.
+
+Finish with an installation summary the user can inspect: producer and consumer `owner/repo` and local paths, channel repo, labels created vs. pre-existing, protocol file location, both pointer lines, deploy signal, retest command shape, redaction rule (if public), and anything skipped.
 
 ## Protocol skeleton
 
@@ -74,6 +94,9 @@ until each issue's cases clear. No human copies anything between machines.
    verbatim, not by reference.
 3. Evidence over assertion. Any state claim — "fixed", "live", "cleared" —
    carries the command and verbatim output that demonstrates it.
+   <If the channel repo is public: evidence is redacted per the rule
+   agreed at install — never secrets, tokens, customer data, or private
+   paths.>
 4. One issue per failure class, not per instance. New cases in a known
    class arrive as comments on the existing issue.
 
@@ -87,8 +110,9 @@ until each issue's cases clear. No human copies anything between machines.
 | Turn labels | `needs-<producer>` · `needs-<consumer>` |
 | Escalation label | `needs-decision` (waiting on the user) |
 | Severity label | `<severity-label, if any>` |
-| Deploy signal | <the user's observable deploy signal> |
+| Deploy signal | <command + field/header that changes when a fix is live> |
 | Consumer retest | <retest command shape, carried in each issue body> |
+| Watermark state file | <per-side local path, e.g. `.claude/issue-channel-state`> |
 | Protocol file of record | this file |
 
 ## Identity and turn-taking
@@ -126,7 +150,7 @@ Title: `[<consumer>] <class>: <short description> (<case(s) or count>)`
 Body sections: `## Class` (and why it's upstream) · `## Cases` (IDs with
 VERBATIM error excerpts) · `## Requested fix` (concrete, scoped) ·
 `## Verification (<consumer> side)` (the exact retest command) · a
-provenance line (which session/analysis produced this).
+provenance line, e.g. `provenance: <repo> @ <commit>, <YYYY-MM-DD>`.
 
 ## Triage (<producer> side)
 
@@ -151,15 +175,16 @@ session boot and at every checkpoint:
     gh issue list -R <owner>/<channel-repo> --label needs-<side> \
       --state all --limit 1000
 
-    # Watermark sweep — safety net for label mistakes; <date> comes from
-    # my side's local controller state file (default: 14 days back):
+    # Watermark sweep — safety net for label mistakes; the date (YYYY-MM-DD)
+    # comes from my side's watermark state file (see Parameters; default:
+    # 14 days back if the file is missing):
     gh issue list -R <owner>/<channel-repo> --label from-<consumer> \
-      --state all --search "updated:>=<date>" --limit 1000
+      --state all --search "updated:>=<YYYY-MM-DD>" --limit 1000
 
-Each side records its watermark in its own local state file — never in
-this file or in the issues. If polling latency ever actually hurts, a
-scheduled poll per side is the next step — do not add infrastructure
-before then.
+After each sweep, write today's date back to the state file. The watermark
+lives only in that local file — never in this file or in the issues. If
+polling latency ever actually hurts, a scheduled poll per side is the next
+step — do not add infrastructure before then.
 
 ## Controllers
 
@@ -168,4 +193,17 @@ issue/class and are disposable (never carried across a round-trip — see
 Principle 1). Issue traffic (filing, comments, closes, reopens) is normal
 agent work on both sides; merges, rebuilds, and deploys follow each side's
 own standing human gates. `needs-decision` is the user's channel.
+
+## gh under a restricted PAT
+
+Fine-grained PATs often fail `gh`'s GraphQL-backed subcommands while REST
+works. `gh issue list` / `view` / `comment` generally work; fallbacks for
+the rest:
+
+| Operation | REST fallback |
+|---|---|
+| create issue | `gh api repos/<owner>/<channel-repo>/issues -f title=… -F body=@<file> -f "labels[]=…"` |
+| close / reopen | `gh api -X PATCH repos/<owner>/<channel-repo>/issues/<n> -f state=closed` · `… -f state=open` |
+| add label | `gh api -X POST repos/<owner>/<channel-repo>/issues/<n>/labels -f "labels[]=<name>"` |
+| remove label | `gh api -X DELETE repos/<owner>/<channel-repo>/issues/<n>/labels/<name>` |
 ```

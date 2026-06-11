@@ -18,7 +18,7 @@ You (Claude) are auditing the user's always-loaded memory files and installing a
    - **Verbose** — keepable but compressible → propose the tighter rewrite.
    Move nothing without approval.
 
-3. **Offer the tripwire hook** for the project(s) with significant memory. Compute the absolute `MEMORY.md` path for each project yourself. Threshold guidance: Claude Code hard-truncates MEMORY.md at the first 200 lines or 25KB, whichever comes first — content beyond is silently not loaded (as of June 2026; verify against current docs). Suggest a threshold just *under* the cliff (e.g. 24,000 bytes) so the warning fires before silent truncation begins; checking `wc -l` against ~190 lines as well is cheap insurance. Note `stat -f%z` is macOS — use `stat -c%s` on Linux.
+3. **Offer the tripwire hook** for the project(s) with significant memory. Compute the absolute `MEMORY.md` path for each project yourself and substitute it for `<ABSOLUTE_PATH_TO_MEMORY.md>` in the template — angle brackets removed; no placeholder may survive into the installed hook. Threshold guidance: Claude Code hard-truncates MEMORY.md at the first 200 lines or 25KB, whichever comes first — content beyond is silently not loaded (as of June 2026; verify against the Claude Code memory docs). The template fires just *under* both cliffs (24,000 bytes / 190 lines) so the warning lands before truncation begins, and its `stat` chain covers both Linux (`-c%s`) and macOS (`-f%z`).
 
 4. **Explain the contract** in one sentence when installing: the hook detects (harness-run, can't be skipped); the audit remediates (run as its own session task, full attention). Standing "keep it tidy" rules guarantee neither.
 
@@ -34,7 +34,7 @@ You (Claude) are auditing the user's always-loaded memory files and installing a
         "hooks": [
           {
             "type": "command",
-            "command": "f=\"<ABSOLUTE_PATH_TO_MEMORY.md>\"; s=$(stat -f%z \"$f\" 2>/dev/null || echo 0); if [ \"$s\" -gt 24000 ]; then printf '{\"systemMessage\":\"MEMORY.md is %dkB — nearing the 25kB load cliff; compact it: move detail to topic files, drop resolved entries\"}' $((s/1024)); fi",
+            "command": "f=\"<ABSOLUTE_PATH_TO_MEMORY.md>\"; s=$(stat -c%s \"$f\" 2>/dev/null || stat -f%z \"$f\" 2>/dev/null || echo 0); l=$(wc -l < \"$f\" 2>/dev/null || echo 0); if [ \"$s\" -gt 24000 ] || [ \"$l\" -gt 190 ]; then printf '{\"systemMessage\":\"MEMORY.md is %d bytes / %d lines — nearing the 25kB/200-line load cliff; compact it: move detail to topic files, drop resolved entries\"}' \"$s\" \"$l\"; fi",
             "timeout": 10
           }
         ]

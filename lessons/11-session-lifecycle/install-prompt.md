@@ -10,10 +10,11 @@ You (Claude) are installing two skills that ritualize how sessions end: `/endses
 
 1. **Ask about their working style first.** These skills earn their keep for people running multiple concurrent sessions/projects. If the user runs one session at a time to completion, `/endsession` alone may be all they need — say so.
 
-2. **Install `/endsession`.** Copy `endsession/SKILL.md` (alongside this prompt) to `~/.claude/skills/endsession/SKILL.md`. It is fully general — no adaptation needed.
+2. **Install `/endsession`.** Copy `endsession/SKILL.md` (alongside this prompt) to `~/.claude/skills/endsession/SKILL.md`, creating directories as needed. If this prompt was pasted as text rather than @-referenced, the payload files aren't on your disk — ask the user for the path to their copy of the lesson directory (or its repo clone) first. It is fully general — no adaptation needed.
 
 3. **Install `/park` — with adaptation.** Copy `park/SKILL.md` to `~/.claude/skills/park/SKILL.md`, then check its conventions against this user's world:
    - Park docs land in an `AI/in_flight/` directory at repo root. Ask whether they have (or want) that convention; adapt the path in the skill if they keep agent files elsewhere.
+   - `/park list all` scans a repositories root: `$GH` if set, otherwise fallback paths from the author's machines. Ask where this user's repos actually live and replace those fallbacks (or delete them) — another person's directory layout must not survive into the installed skill.
    - The skill assumes git repos. If they work outside repos, ask where parked-session docs should live.
 
 4. **Explain the usage rhythm:** `/endsession` when wrapping up ("anything to close out?"); `/park` when closing mid-work ("I need to reboot", "park this session"); `/park list` to inventory parked work; `/park resume <n>` to pick one up in a fresh session.
