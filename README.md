@@ -30,3 +30,8 @@ Top-level companions:
 9. [Findings are claims, not commands](lessons/09-findings-are-claims/LESSON.md) — label provenance when relaying reviewer output; deference is addressed to the speaker.
 10. [Encode your convictions](lessons/10-encode-your-convictions/LESSON.md) — any opinion you've explained twice belongs in CLAUDE.md, with its why, its exceptions, and its application pressure.
 11. [Sessions are documents](lessons/11-session-lifecycle/LESSON.md) — `/endsession` audits for value that exists only in the conversation; `/park` writes the hand-off that replaces the session as the resume artifact.
+12. [A front door for agents (`AI/START_HERE.md`)](lessons/12-ai-directory/LESSON.md) — orientation as a table of contents that spends tokens like money; name artifacts for their primary reader; the clone test decides repo vs memory.
+13. [Tokens are time](lessons/13-token-economy/LESSON.md) — on a subscription the rate limit is the budget; read traces like a profiler — every grope is a missing declaration, and the agent won't ask.
+14. [Spend the meter that isn't moving](lessons/14-model-economics/LESSON.md) — budgets are per-tier and drain at different rates; route by meter, err upward, and exile batchable work to half-price, cache-warmed API credits.
+15. [Stop, don't degrade](lessons/15-tool-kit/LESSON.md) — an agent's first reach names the right tool; when it's missing, the fallback chain silently trades it for a fragile imitation. Pause for the install; the kit assembles itself.
+16. [The 30KB tripwire](lessons/16-memory-hygiene/LESSON.md) — agent-maintained files grow without limit under standing rules; attention is finite, so hygiene gets a measuring hook and a dedicated audit.

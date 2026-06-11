@@ -1,61 +1,38 @@
 # Build the claude-wisdom lesson collection: review the user's global/per-project Claude customizations one by one, producing a LESSON.md + install-prompt.md pair per item, toward a shareable lecture.
 
-Parked: 2026-06-11 14:19 America/New_York
+Parked: 2026-06-11 (end of Session 2) America/New_York
 
-STATUS: Lessons 01–11 written and user-reviewed in discussion (all six global CLAUDE.md rule sections covered; review policy became lessons 06–09; session-lifecycle skills became lesson 11 with skill payloads). NOT done: the `AI/` directory convention lesson (next up — origin question pending, reproduced below), all TODO.md topics, the settings/statusline/MCP/utility-skills items, the meta-lesson, and lecture assembly. The repo is not git-initialized.
-
-## Last session output (verbatim)
-
-(written at park time — the last substantive end-of-work message, reproduced from the session; it ended on the question the user deferred to the next session)
-
-> Both done.
->
-> **Lesson 8 upgraded:** the extra line now gets its due — "worth its weight in gold," with the mechanism spelled out: without it reviewers check the diff's correctness; with it they also step back and ask *is this the right approach at a higher level*, and that question pays off almost every time. The asymmetry stays as the rule: widening the reviewer's scope is fine; narrowing it is the sin.
->
-> **Lesson 11** (`11-session-lifecycle/`) ships both skills verbatim as payloads (I grepped them for personal/machine-specific content first — clean). The story runs from your working pattern (concurrent projects, parent/child sessions, windows-as-sticky-notes eating a 16GB laptop, reboot = a dozen loose ends at once) through the two skills as opposite ends of one problem: `/endsession` audits for value that exists only in the conversation; `/park` saves the session-as-document — the work summary plus, verbatim, the final summary you hadn't dealt with. The install prompt has the agent check working style first (single-session users may only need `/endsession`) and adapt the `AI/in_flight/` path convention rather than assuming it.
->
-> The commentary produced what might be my favorite observation of the collection (#16): **an agent's continuity is a property of artifacts, not the agent.** [...]
->
-> **Next**, I'd suggest the biggest remaining item: the **`AI/` directory convention** — `START_HERE.md`, `in_flight/`, TODO files, the whole organizing-files-for-agents layer that ~25 of your repos share [...]. It's also the TODO item where you said you'd definitely want my tips on your current setup. To start: how did `AI/START_HERE.md` begin? And one thing the sweep noticed that I'd like your read on before I form tips: the convention has drifted variants — `AI Agents/` in openalex-local, `@AI Notes/` referenced in tesseretica's CLAUDE.md — plus a documented split between auto-memory and `AI/` in fitsjs. Was the AI-directory-vs-memory boundary ever deliberately designed, or did it accrete?
-
-User's reply before parking (binding correction): `AI/in_flight/` is the implementation detail of `/park`, not a separate convention — do not frame it as part of the `AI/` directory layer. (Already recorded in notes/process-log.md.)
+STATUS: Lessons 01–16 written and user-reviewed (01–11 in session 1; 12–16 in session 2: AI/ directory, token economy, model economics, tool kit, memory hygiene). OBSERVATIONS at 30 entries. Four rules deployed live to the user's global `~/.claude/CLAUDE.md` (clone test, Known Quantities Are Never Guessed, Missing Tools: Stop Don't Degrade — plus session 1's $GH topology). NOT done: the new priority topic (multi-agent GH-issue protocol), the niche category, the undecided small items, $GH-on-Linux (user action), the meta-lesson, lecture assembly.
 
 ## Resume context
 
-- Boot documents (read in this order):
-  1. `README.md` — repo structure, lesson-format conventions, lessons index.
-  2. `TODO.md` — remaining lecture topics.
-  3. `notes/process-log.md` — per-lesson origin stories collected so far, corrections, decisions.
-  4. `OBSERVATIONS.md` — 17 meta-insights; the lecture's connective tissue.
-  5. `notes/per-project-customizations-sweep.md` — raw catalog of ~30 repos (reference; consult when an item needs examples, don't re-sweep).
-  (Project memory auto-loads: subagent model selection, interactive-means-discussion, docs-stay-tight.)
-- Binding working rules (from user, this session):
+- Boot documents (read in this order): `README.md` (incl. lessons index 01–16), `TODO.md`, `notes/process-log.md` (sessions 1 AND 2), `OBSERVATIONS.md` (30 entries), `notes/per-project-customizations-sweep.md` (reference only — don't re-sweep).
+- Binding working rules (unchanged from session 1, plus one new):
   - Interactive review = one item at a time, conversational; NEVER AskUserQuestion batches.
-  - Per lesson: human-facing `LESSON.md` (story/reasoning, ends with a first-person "From the other side of the prompt" Claude commentary) + agent-directed `install-prompt.md` (inspect → interview one question at a time → adapt → show before writing → merge don't clobber), plus payload files where a real skill/script is shipped (grep for personal info before shipping).
-  - Docs stay tight — resist verbosity; watch CLAUDE.md/MEMORY.md sizes.
-  - Subagent model rule: sonnet for deterministic search, haiku for trivial, err upward on any doubt.
-  - Sanitization is decided per item in discussion ("a mix of both").
-  - Process per item: present my read + ask for the origin story → user tells it → write the pair → update README lessons list + process log (+ OBSERVATIONS when a genuine meta-insight emerged).
-- Done — do not redo: lessons 01–11 (see README index); global `~/.claude/CLAUDE.md` repo-location rule already tightened/deployed (topology + Linux mapping) [stable]; global CLAUDE.md survey and $GH-wide sweep both complete and written down.
-- Work plan (remaining, roughly in order):
-  1. `AI/` directory convention lesson (START_HERE.md, proactive-update rules, AI-vs-memory boundary) — overlaps TODO "organizing files for agents," where the user explicitly wants my tips on their current setup. Pending question, re-ask on resume: **"How did `AI/START_HERE.md` begin? And was the AI-directory-vs-memory boundary deliberately designed or did it accrete? (Sweep found drifted variants: `AI Agents/` in openalex-local, `@AI Notes/` in tesseretica's CLAUDE.md; fitsjs documents an explicit auto-memory vs AI/ split.)"** — remember the in_flight correction above when discussing.
-  2. TODO.md topics: token usage; model/subscription value (fold in the subagent-model memory + "sonnet effectively free" policy); tools agents reach for; memory hygiene (tesseretica 30KB hook); $GH on Linux (user action); meta-lesson last.
-  3. Smaller inventory items: settings.json choices, statusline (partly covered in lesson 1), codex MCP (partly covered in lesson 7), utility skills (omnigraffle-tools, dedup-video) — possibly one "skills as personal tooling" lesson.
-  4. Eventually: assemble the actual lecture from lessons + OBSERVATIONS (user: "maybe when done we can turn this into an actual lecture"); document the build process in detail (process log feeds this).
-- Pending user decisions:
-  1. The AI/ convention origin question (verbatim above).
-  2. NEW, not yet asked: claude-wisdom is not a git repository — initialize it? (Park doc and registry are currently untracked-by-definition.)
+  - Per lesson: human-facing `LESSON.md` (story + first-person "From the other side of the prompt" Claude commentary) + agent-directed `install-prompt.md` (inspect → interview one question at a time → adapt → show before writing → merge don't clobber); payloads grepped for personal info; **separate the invariant from the user's personal preference — install prompts ask, never assume (OBSERVATIONS #28, learned via lesson 15 correction)**.
+  - Docs stay tight; **date volatile numbers** (month/year stamp on drifting figures — project memory `date-volatile-numbers`); verify external facts before shipping them (claude-api skill / claude-code-guide agent — both used in session 2).
+  - Process per item: present read + ask origin → user tells story → write pair → update README index + process log (+ OBSERVATIONS).
+  - Live deployments to the real global CLAUDE.md happen on explicit per-rule user approval (4 precedents).
+- Done — do not redo: lessons 01–16; observations 1–30; global CLAUDE.md deployments; tesseretica memory-triage TODO (top of `$GH/thehighlighter/tesseretica/AI/TODO.md`) and MEMORY.md tripwire lowered 30000→24000 bytes (`.claude/settings.local.json`) — **both uncommitted in the tesseretica repo; user handles via tesseretica's own protocol**; AI-directory variant migration prompt written for a separate clean session: `AI/prompts/migrate-ai-directory-variants.md`.
+
+## Work plan (remaining, in order)
+
+1. **Multi-agent, cross-repo, GitHub-issue protocol** (user-flagged priority, added at session 2 close). The user: "I have created a working multi-agent, cross repo, GH/issue protocol — this should be documented as a thing that is visible." Opening move next session: ask the user to walk through the protocol — repos involved, how issues carry work between agents/machines, the lunchtime worker's role (GitHub top-level memory mentions "ingest→bug→fix automation via GitHub issues"; multi-session status uses in_flight/), and what "visible" means (lesson? standalone doc? both?).
+2. **Niche category**: create `lessons/niche/`; write the omnigraffle-tools item there. dedup-video is omitted. Statusline / settings.json / codex-MCP small items: ask for a ruling (fold somewhere, niche, or drop).
+3. $GH on Linux — user action; offer to write the snippet when he does it.
+4. Meta-lesson (last): the process log + OBSERVATIONS #28 (don't ship your taste) and the correction history are its raw material.
+5. Lecture assembly from lessons + OBSERVATIONS.
 
 ## Working tree state at park
 
-- `claude-wisdom`: **not a git repository** — no VCS state to capture. All session artifacts on disk: `README.md`, `TODO.md`, `OBSERVATIONS.md`, `notes/{per-project-customizations-sweep,process-log}.md`, `lessons/01–11/*` (11 lesson dirs incl. payload copies of no-silent-skip-review, park, endsession skills), `AI/in_flight/*` (this park).
-- `~/.claude` (not a repo): `CLAUDE.md` repo-location section edited this session (deliberate, user-approved).
-- Project memory dir: 4 memory files + MEMORY.md index written this session.
-- Possibly touched / not verified: none — the $GH-wide sweep was read-only (background Explore agent).
+- claude-wisdom: all session-2 work committed (lessons 12–16, OBSERVATIONS 19–30, process log, TODO, README, AI/prompts/, this park doc).
+- `~/.claude/CLAUDE.md`: two sections added this session (Where Knowledge Lives; Known Quantities; Missing Tools — all user-approved). Not a repo.
+- Project memory: `date-volatile-numbers` added; MEMORY.md index updated.
+- tesseretica repo: TWO uncommitted changes (AI/TODO.md triage item; settings.local.json tripwire) — user's tesseretica sessions own committing these.
 
 ## First actions on resume
 
-1. Read the boot documents (order above).
-2. Confirm git status of claude-wisdom (`git -C . rev-parse --git-dir`) — if still not a repo, raise pending decision 2 (git init) before writing more artifacts.
-3. Re-ask pending question 1 verbatim and continue the one-by-one interactive process with the `AI/` convention lesson.
-4. Cleanup rule: when the lesson collection work COMPLETES, remove ONLY the registry entry whose Details link exactly matches `2026-06-11-lecture-lesson-collection.md`, then delete this file. If the work is superseded or abandoned, do NOT silently delete — update STATUS here and the registry entry to match, or ask the user.
+1. Read boot documents (order above).
+2. Confirm `git -C . status` is clean (session 2 committed everything; if not, investigate before writing).
+3. Open work-plan item 1: ask the user to describe the multi-agent GH-issue protocol (question above, verbatim is fine) and continue the one-by-one process.
+4. Cleanup rule: when the collection COMPLETES, remove ONLY the registry entry whose Details link matches `2026-06-11-lecture-lesson-collection.md`, then delete this file. If superseded or abandoned, update STATUS and the registry instead — never silently delete.

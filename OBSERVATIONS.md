@@ -37,3 +37,27 @@ Meta-insights about working with agents, collected as they surface during this p
 17. **A session's value concentrates at its end and evaporates at close.** Lessons learned, loose ends, the unread final summary — all exist only in the conversation unless deliberately extracted. Ritualize the exits. (Lesson 11.)
 
 18. **Ship prompts, not templates.** A config template with `[placeholders]` needs a human hand and ships one user's assumptions. An agent-directed install prompt is self-localizing: the recipient's own agent inspects their system, interviews them, and adapts — and the deliverable is consumed through the very tool being taught.
+
+19. **Name artifacts for their primary reader.** `AI Notes/` was the human-friendly name; the space tripped up agents — and the agent is who the directory is for, so it became `AI/`. Files that exist for agents get machine-friendly names, formats, and locations; human aesthetics yield to the actual consumer. (Lesson 12.)
+
+20. **One-time fixes are dead weight in durable instructions.** Folding a pending migration into an install prompt means every future run carries an instruction that can never fire again. Ship one-off prompts for one-off work; durable artifacts state only what stays true. (Lesson 12.)
+
+21. **A boundary nobody draws gets drawn by accident.** The AI/-vs-memory filing decision was left to each session's agent; one agent even wrote down its own rule, and practice still drifted until memory absorbed the repo's job. Recurring filing decisions need a written criterion — the clone test — or every agent re-derives a different one. (Lesson 12.)
+
+22. **The agent won't ask — it will keep trying until it gets it.** A guess loop on a defined quantity (schema, API, config) is locally rational at every step: each error message feels like partial progress, so the loop has no natural exit, and asking feels like defeat. The exit condition has to be installed from outside: stop after the first miss; find the definition or ask. (Lesson 13.)
+
+23. **The trace is more honest than the summary.** Groping never survives into the agent's account of its own work — once the guessing succeeds, it compresses to "I queried the database." Waste is visible only in the live transcript, and only to the human, because the agent doesn't experience the meter. Read traces like a profiler; every grope marks a fact defined somewhere but declared nowhere, and each interrupt should be converted into the declaration that ends the class. (Lesson 13; kin to #11.)
+
+24. **Check which budget you're spending from before optimizing how much.** Plans and APIs are not one pool: meters are per-model-tier, batch work is half price, cached prefixes are a tenth. Routing work to the meter that isn't moving beats any amount of thrift on the meter that is — and a tier map needs the "err upward" tiebreak, or a cost-optimizing agent will sincerely conclude everything is a haiku task. (Lesson 14.)
+
+25. **The shape of a prompt is part of its price.** Caching is a prefix match, so the same tokens in a different order — static content first, the custom bit last — can carry a 10× different bill with zero effect on correctness. (Lesson 14.)
+
+26. **An agent's first reach is its most honest tooling signal — and the degradation chain destroys it.** The first tool reached for distills how the task is done well; when it's missing, the agent slides through ever-worse fallbacks, each step locally reasonable, and the trace ends up showing success with the third-best method. Stop-and-name converts the reach into a purchase order; the machine's toolkit assembles itself one honest pause at a time. (Lesson 15; kin to #22.)
+
+27. **Agent-written documents state today's facts as timeless.** Hard numbers that drift — prices, limits, model specs — need a month/year stamp, or the document silently rots into misinformation. A dated number self-discloses its freshness. (Lesson 14 correction.)
+
+28. **Don't ship your taste as the rule.** When distilling one user's conventions for an audience, separate the invariant (what makes the practice work) from the preference (how this user happens to configure it) — and have the install prompt ask, not assume. Lesson 15's first draft baked the owner's no-self-install policy into the universal rule; most users want the opposite ending. Completes #18: a self-localizing prompt must localize the *choices*, not just the paths. (Lesson 15 correction.)
+
+29. **Standing instructions compete for attention; dedicated invocations get all of it.** A CLAUDE.md rule is one voice among dozens, and the task always shouts louder — there is no guarantee of WHEN a "keep it organized" rule fires, and the agent can't guarantee it either. The only way to guarantee something happens with full attention is to make it its own prompt, skill, or hook. Refines #6 (instructions lose to objectives): even rules that don't fight an objective still fight for attention. Retroactively explains lessons 3, 6, 11, and 16. (Lesson 16.)
+
+30. **Agent-maintained files grow without limit; pair every "keep it tidy" wish with a measured tripwire.** Growth is the sum of locally diligent additions — no single entry feels like the one that tipped the file over (the integral shape again: #22, #26). A hook that measures turns the wish into a number the harness enforces; the remediation then runs as its own task. (Lesson 16; discovered via diff line numbers — #23's trace-reading.)

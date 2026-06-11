@@ -10,7 +10,7 @@ detail file.
 
 ## Lecture lesson collection — 2026-06-11
 
-Session 1 of the claude-wisdom project: built lessons 01–11 (all global CLAUDE.md rules) via one-by-one interactive review; remaining items queued in TODO.md.
-**Pending:** Re-ask the AI/ directory convention origin question (verbatim in detail file) and continue the per-item review process; also raise whether to `git init` the repo.
+Sessions 1–2 of the claude-wisdom project: lessons 01–16 built via one-by-one interactive review; 30 observations; four rules deployed live to the global CLAUDE.md.
+**Pending:** Ask the user to describe their multi-agent / cross-repo / GitHub-issue protocol (new priority topic), then the niche category, meta-lesson, and lecture assembly — work plan in the detail file.
 
 → Details: [`2026-06-11-lecture-lesson-collection.md`](2026-06-11-lecture-lesson-collection.md)
