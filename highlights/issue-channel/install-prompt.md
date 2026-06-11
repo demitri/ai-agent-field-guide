@@ -54,12 +54,12 @@ Everything else — label names, polling cadence, severity tiers, how each side 
 
 ## Install
 
-1. Adapt the skeleton below with the interview answers. Fill every placeholder the interview answered — sides and short names, `owner/repo`, GitHub host, labels, deploy signal, retest command, who answers the escalation label, watermark paths, file location; none of those may survive into the written file. Placeholders that stand for values a *future session* supplies at runtime stay as-is: `<side>`, issue numbers (`<n>`), dates (`<YYYY-MM-DD>`), and the format fields in titles, body sections, and handback lines (`<class>`, `<single next action>`, …). The two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) are included or dropped per the preflight answers, brackets removed either way. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
-2. Create the labels idempotently: list existing labels first (`gh api repos/<owner>/<channel-repo>/labels`), create only the missing ones — run the command below once per missing label from the Parameters table, including the origin label (a 422 response means it already exists; that's fine, but never change an existing label's color or description without asking). Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`.
+1. Adapt the skeleton below with the interview answers. Fill every placeholder the interview answered — sides and short names, `owner/repo`, GitHub host, labels, deploy signal, retest command, who answers the escalation label, watermark paths, file location; none of those may survive into the written file. Placeholders that stand for values a *future session* supplies at runtime stay as-is: `<side>`, issue numbers (`<n>`), dates (`<YYYY-MM-DD>`), the format fields in titles, body sections, and handback lines (`<class>`, `<single next action>`, …), and the command arguments in the §gh fallback table (`<file>`, `<name>`). The two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) resolve per the preflight answers: to keep one, keep only its body text (drop the `<If …:` prefix and the closing `>`); to drop one, remove the whole construct. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
+2. Create the labels idempotently: list existing labels first (`gh api -X GET repos/<owner>/<channel-repo>/labels`), create only the missing ones (the creation command below POSTs — make that explicit with `-X POST`) — run the command below once per missing label from the Parameters table, including the origin label. A 422 response is benign only if its body says the label already exists — any other error stops the install per the standing rule. Never change an existing label's color or description without asking. Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`.
    ```bash
-   gh api repos/<owner>/<channel-repo>/labels -f name="<label>" -f color="<hex>" -f description="<one line>"
+   gh api -X POST repos/<owner>/<channel-repo>/labels -f name="<label>" -f color="<hex>" -f description="<one line>"
    ```
-3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. In the consumer's pointer, name the protocol file by its GitHub location (`<owner>/<producer-repo>` + in-repo path, or the full URL) — never a local filesystem path, which is machine-bound. Never duplicate the protocol itself. Also confirm each side's watermark state file is git-ignored in its repo (it is local state, not source).
+3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. In the consumer's pointer, name the protocol file by its GitHub location (`<owner>/<producer-repo>` + in-repo path, or the github.com `blob/` URL) — never a local filesystem path, which is machine-bound. Never duplicate the protocol itself. Also add each side's watermark state-file path to that repo's `.gitignore` (or `.git/info/exclude` if the user prefers not to commit the rule) unless it is already ignored — it is local state, not source.
 
 ## Verify, then hand over
 
@@ -174,9 +174,9 @@ No webhooks, no daemons. Each side's controller runs two queries at
 session boot and at every checkpoint:
 
     # Inbox — everything awaiting MY side. <side> resolves at runtime to
-    # this session's own side; it is the one placeholder that stays in
-    # this file. (Closed issues can still carry my turn label until
-    # verification runs.)
+    # this session's own short name from §Parameters; it is the one
+    # placeholder that stays in this file. (Closed issues can still
+    # carry my turn label until verification runs.)
     gh issue list -R <owner>/<channel-repo> --label needs-<side> \
       --state all --limit 1000
 
