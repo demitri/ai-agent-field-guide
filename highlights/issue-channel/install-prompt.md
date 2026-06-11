@@ -23,7 +23,7 @@ Decision rule: proceed only if 2 and 3 are both yes — the protocol's verificat
 - `gh auth status` — if `gh` is absent or unauthenticated, stop: name the tool, what it's for (all channel traffic flows through it), and let the user install or authenticate before resuming. Note which identity each side will act as, and whether the user is on github.com or a GitHub Enterprise host. On GHES, authenticate `gh` against that hostname and have every session export `GH_HOST=<host>` — that routes both `gh issue` and `gh api` commands to the instance (a bare `gh api repos/…` otherwise targets github.com).
 - Confirm issues are enabled on the intended channel repo. If not, stop: the user enables them under repo Settings → General → Features → Issues.
 - Probe real permissions, not just auth: `gh api repos/<owner>/<repo>/labels` on the channel repo. If it fails (org policy, PAT scope), surface the error — issue read/write for both identities is the minimum, and an org admin may need to grant it.
-- Locate the local clones of BOTH repos — each gets a pointer line at install, and the producer's also holds the protocol file. Confirm each clone's `git remote get-url origin` matches the GitHub repo the user named; if either clone is missing, stop and say which.
+- Locate the local clones of BOTH repos — each gets a pointer line at install, and the producer's also holds the protocol file. Confirm each clone's `git remote get-url origin` matches the GitHub repo the user named; if either clone is missing, stop and say which. Check `git status --short` in both: if any file you'll touch (instructions file, protocol location) has uncommitted changes, get explicit approval before editing it.
 - The protocol requires VERBATIM error excerpts and probe output in issue bodies, so agree on a redaction rule regardless of repo visibility: never secrets, tokens, or customer data — issue trackers persist and are visible to collaborators, apps, and exports. If the channel repo is public, tighten it further (no private paths or internal hostnames either) and warn the user explicitly. The agreed rule goes into the protocol file's Principles.
 - Determine whether the two sides will authenticate as the *same* GitHub user (common: one human account, or one shared PAT). This decides whether speaker identity must be carried in comment text.
 - If a scoped PAT is involved: fine-grained PATs often break `gh`'s GraphQL-backed subcommands while REST works — the skeleton's §gh table carries the REST fallbacks.
@@ -33,8 +33,8 @@ Decision rule: proceed only if 2 and 3 are both yes — the protocol's verificat
 1. Which repo is the **producer** (triages and fixes) and which the **consumer** (files failures)? Get each as a full `owner/repo` path — for personal repos the owner is the username `gh auth status` shows. Also pick a SHORT name for each side (typically the bare repo name): the short names go into labels, speaker prefixes, and issue titles (GitHub label names can't contain `/`); the full `owner/repo` is used only in commands. If producer and consumer turn out to be the same repo (two subsystems rather than two repos), the channel still works: sides are roles, not repos; keep both labels and prefixes.
 2. Which repo hosts the channel? (Default: the producer's issue tracker — that's where the work lands.)
 3. Same GitHub identity on both sides? If yes, speaker prefixes are mandatory; if the sides have distinct accounts or bot identities, prefixes become optional decoration.
-4. Label names — defaults: `from-<consumer>`, `needs-<producer>`, `needs-<consumer>`, `needs-decision`, plus an optional severity label (e.g. `blocker`). Their names, their choice.
-5. Pin down the **deploy signal** confirmed in step 0: the exact command and the field or header it reads. Never invent one — without it the close protocol cannot carry deploy evidence, and the install must not proceed.
+4. Label names — defaults: `from-<consumer>`, `needs-<producer>`, `needs-<consumer>`, `needs-decision`, plus an optional severity label (e.g. `blocker`). Their names, their choice. (If they decline the severity label, its Parameters row reads `none` — keep the row.)
+5. Pin down the **deploy signal** confirmed in step 0: the exact command and the field or header it reads. Never invent one — without it the close protocol cannot carry deploy evidence, and the install must not proceed. Pin the **consumer retest command** (or its shape) at the same time — it fills the Consumer retest parameter and the `## Verification` template carried in every filed issue.
 6. Who answers `needs-decision`? (Usually the user themselves, replying in the issue thread.)
 7. Where do agent-facing docs live in each repo (a docs/ or AI/ directory, or the repo root)? The protocol file goes in the producer repo's; both repos get a pointer.
 8. Confirm the watermark state-file path each side will use (default: `.claude/issue-channel-state` inside that side's repo, untracked) — it's a Parameters-table entry, so it must be settled before writing.
@@ -54,12 +54,12 @@ Everything else — label names, polling cadence, severity tiers, how each side 
 
 ## Install
 
-1. Adapt the skeleton below with the interview answers. Replace every `<placeholder>` with two deliberate exceptions: `<side>` in §Polling is a *runtime* variable (each session resolves it to its own side — the in-place comment stays), and the two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) are included or dropped per the preflight answers, brackets removed either way. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
+1. Adapt the skeleton below with the interview answers. Fill every placeholder the interview answered — sides and short names, `owner/repo`, GitHub host, labels, deploy signal, retest command, who answers the escalation label, watermark paths, file location; none of those may survive into the written file. Placeholders that stand for values a *future session* supplies at runtime stay as-is: `<side>`, issue numbers (`<n>`), dates (`<YYYY-MM-DD>`), and the format fields in titles, body sections, and handback lines (`<class>`, `<single next action>`, …). The two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) are included or dropped per the preflight answers, brackets removed either way. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
 2. Create the labels idempotently: list existing labels first (`gh api repos/<owner>/<channel-repo>/labels`), create only the missing ones — run the command below once per missing label from the Parameters table, including the origin label (a 422 response means it already exists; that's fine, but never change an existing label's color or description without asking). Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`.
    ```bash
    gh api repos/<owner>/<channel-repo>/labels -f name="<label>" -f color="<hex>" -f description="<one line>"
    ```
-3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. Never duplicate the protocol itself.
+3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. In the consumer's pointer, name the protocol file by its GitHub location (`<owner>/<producer-repo>` + in-repo path, or the full URL) — never a local filesystem path, which is machine-bound. Never duplicate the protocol itself. Also confirm each side's watermark state file is git-ignored in its repo (it is local state, not source).
 
 ## Verify, then hand over
 
@@ -106,14 +106,15 @@ until each issue's cases clear. No human copies anything between machines.
 | Parameter | Value |
 |---|---|
 | Channel repo | `<owner>/<channel-repo>` (issues) |
+| GitHub host | <github.com, or the GHES hostname — if GHES, every session exports `GH_HOST=<host>` before any `gh` command> |
 | Sides | `<consumer>` (files issues) · `<producer>` (triages) |
 | Origin label | `from-<consumer>` |
 | Turn labels | `needs-<producer>` · `needs-<consumer>` |
-| Escalation label | `needs-decision` (waiting on the user) |
-| Severity label | `<severity-label, if any>` |
+| Escalation label | `needs-decision` (answered by: <who answers this label>) |
+| Severity label | <severity-label, or `none`> |
 | Deploy signal | <command + field/header that changes when a fix is live> |
 | Consumer retest | <retest command shape, carried in each issue body> |
-| Watermark state file | <per-side local path, e.g. `.claude/issue-channel-state`> |
+| Watermark state files | producer: <path> · consumer: <path> (local, git-ignored) |
 | Protocol file of record | this file |
 
 ## Identity and turn-taking
