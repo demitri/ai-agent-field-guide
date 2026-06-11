@@ -4,6 +4,14 @@ Conventions, rules, and skills for AI agents, learned by working in the field. F
 
 Built up from real, daily use of Claude Code; collected here so the lessons can be shared and taught.
 
+If the collection has a prime directive, it is **fail fast, fail loud** — most of these lessons are that instinct applied to one more surface where agents default to the quiet path.
+
+## Highlight: the issue channel
+
+Two fleets of agents in separate repos — different codebases, different machines — file bugs against each other, fix them, verify the fixes with evidence, and escalate to the human only when a judgment call is needed: asynchronously, over ordinary GitHub issues, with nobody hand-carrying anything. It is a working application of how this collection believes agents scale: not bigger models, but many specialized agents, each doing one thing well, communicating through durable artifacts. Every design choice traces to one of the lessons below — the collection converging into something greater than the sum of its parts.
+
+**→ [The write-up](highlights/issue-channel/HIGHLIGHT.md)** · [install prompt](highlights/issue-channel/install-prompt.md)
+
 ## Structure
 
 Each lesson lives in `lessons/NN-short-name/` and contains exactly two kinds of artifact:
@@ -13,6 +21,7 @@ Each lesson lives in `lessons/NN-short-name/` and contains exactly two kinds of 
 
 Top-level companions:
 
+- **`highlights/`** — working systems built from the lessons (write-up + install prompt, same pair structure), featured on this page.
 - **`TODO.md`** — lecture topics queued for development.
 - **`OBSERVATIONS.md`** — meta-insights about working with agents, collected as they surface; the lecture's connective tissue.
 - **`notes/`** — raw working material (surveys, sweeps, the process log) that lessons are distilled from; not itself shareable.
@@ -34,4 +43,4 @@ Top-level companions:
 13. [Tokens are time](lessons/13-token-economy/LESSON.md) — on a subscription the rate limit is the budget; read traces like a profiler — every grope is a missing declaration, and the agent won't ask.
 14. [Spend the meter that isn't moving](lessons/14-model-economics/LESSON.md) — budgets are per-tier and drain at different rates; route by meter, err upward, and exile batchable work to half-price, cache-warmed API credits.
 15. [Stop, don't degrade](lessons/15-tool-kit/LESSON.md) — an agent's first reach names the right tool; when it's missing, the fallback chain silently trades it for a fragile imitation. Pause for the install; the kit assembles itself.
-16. [The 30KB tripwire](lessons/16-memory-hygiene/LESSON.md) — agent-maintained files grow without limit under standing rules; attention is finite, so hygiene gets a measuring hook and a dedicated audit.
+16. [The 24KB tripwire](lessons/16-memory-hygiene/LESSON.md) — agent-maintained files grow without limit under standing rules; attention is finite, so hygiene gets a measuring hook and a dedicated audit.

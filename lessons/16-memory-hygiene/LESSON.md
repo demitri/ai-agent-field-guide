@@ -1,4 +1,4 @@
-# Lesson 16: The 30KB tripwire — hygiene for always-loaded files
+# Lesson 16: The 24KB tripwire — hygiene for always-loaded files
 
 **Artifact:** [`install-prompt.md`](install-prompt.md) (embeds the hook)
 
@@ -27,8 +27,8 @@ The fix is split into a detector and a remediator. The detector is a `SessionSta
 ```bash
 f="<absolute path to MEMORY.md>"
 s=$(stat -f%z "$f" 2>/dev/null || echo 0)
-if [ "$s" -gt 30000 ]; then
-  printf '{"systemMessage":"MEMORY.md is %dkB (>30kB) — compact it: move detail to topic files, drop resolved entries"}' $((s/1024))
+if [ "$s" -gt 24000 ]; then
+  printf '{"systemMessage":"MEMORY.md is %dkB — nearing the 25kB load cliff; compact it: move detail to topic files, drop resolved entries"}' $((s/1024))
 fi
 ```
 

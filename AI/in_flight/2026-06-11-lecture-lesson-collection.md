@@ -2,7 +2,7 @@
 
 Parked: 2026-06-11 (end of Session 2) America/New_York
 
-STATUS: Lessons 01–16 written and user-reviewed (01–11 in session 1; 12–16 in session 2: AI/ directory, token economy, model economics, tool kit, memory hygiene). OBSERVATIONS at 30 entries. Four rules deployed live to the user's global `~/.claude/CLAUDE.md` (clone test, Known Quantities Are Never Guessed, Missing Tools: Stop Don't Degrade — plus session 1's $GH topology). NOT done: the new priority topic (multi-agent GH-issue protocol), the niche category, the undecided small items, $GH-on-Linux (user action), the meta-lesson, lecture assembly.
+STATUS: Lessons 01–16 plus the front-page HIGHLIGHT (`highlights/issue-channel/` — the multi-agent issue channel; was briefly "lesson 17" until the user re-scoped it). OBSERVATIONS at 35 entries. Prime directive ("fail fast, fail loud") and the Highlight section added to README. Stale 30KB references fixed (lessons 13, 16; lesson 16 retitled "The 24KB tripwire"). IN PROGRESS: user-directed review fan-out — independent sonnet review of all 17 install prompts + codex review of the issue-channel prompt (installability focus); findings being triaged/fixed under the dry-round rule. NOT done: the niche category, the undecided small items (statusline/settings/codex-MCP), $GH-on-Linux (user action), the meta-lesson, lecture assembly. Session-3 work NOT yet committed.
 
 ## Resume context
 

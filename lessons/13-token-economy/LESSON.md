@@ -8,7 +8,7 @@ The owner runs on a Claude subscription and hits rate limits constantly. That ch
 
 ## The discipline was already everywhere
 
-Once you look for it, token economy turns out to be the quiet second motive behind half this collection: always-loaded files kept deliberately small (the 30KB memory hook), `START_HERE.md` as a routing page instead of a briefing book (Lesson 12's three tiers, three prices), searches and DB queries delegated to disposable subagent contexts so only conclusions return, the expired-cache economics of idle sessions (Lesson 11), the N>50 rule forcing a stated cost before bulk work (Lesson 4). This lesson is about the practice that *finds the next one*.
+Once you look for it, token economy turns out to be the quiet second motive behind half this collection: always-loaded files kept deliberately small (Lesson 16's memory tripwire, set just under the harness's 25KB load cliff), `START_HERE.md` as a routing page instead of a briefing book (Lesson 12's three tiers, three prices), searches and DB queries delegated to disposable subagent contexts so only conclusions return, the expired-cache economics of idle sessions (Lesson 11), the N>50 rule forcing a stated cost before bulk work (Lesson 4). This lesson is about the practice that *finds the next one*.
 
 ## Reading traces like a profiler
 

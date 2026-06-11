@@ -34,7 +34,7 @@ You (Claude) are auditing the user's always-loaded memory files and installing a
         "hooks": [
           {
             "type": "command",
-            "command": "f=\"<ABSOLUTE_PATH_TO_MEMORY.md>\"; s=$(stat -f%z \"$f\" 2>/dev/null || echo 0); if [ \"$s\" -gt 30000 ]; then printf '{\"systemMessage\":\"MEMORY.md is %dkB (>30kB) — compact it: move detail to topic files, drop resolved entries\"}' $((s/1024)); fi",
+            "command": "f=\"<ABSOLUTE_PATH_TO_MEMORY.md>\"; s=$(stat -f%z \"$f\" 2>/dev/null || echo 0); if [ \"$s\" -gt 24000 ]; then printf '{\"systemMessage\":\"MEMORY.md is %dkB — nearing the 25kB load cliff; compact it: move detail to topic files, drop resolved entries\"}' $((s/1024)); fi",
             "timeout": 10
           }
         ]
