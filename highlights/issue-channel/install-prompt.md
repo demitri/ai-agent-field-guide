@@ -122,9 +122,9 @@ until each issue's cases clear. No human copies anything between machines.
 
 ## Identity and turn-taking
 
-<If both sides share one GitHub identity:> the first line of every comment
+<If both sides share one GitHub identity: the first line of every comment
 is a speaker prefix: `**[<consumer>]**` or `**[<producer>]**`; issue titles
-keep the `[<consumer>]` prefix.
+keep the `[<consumer>]` prefix.>
 
 - Exactly one turn label is set whenever an issue awaits action; whoever
   comments flips it to the other side (or removes it when finished).
