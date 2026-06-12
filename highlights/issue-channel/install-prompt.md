@@ -61,7 +61,7 @@ Everything else — label names, polling cadence, severity tiers, how each side 
    ```bash
    gh api -X POST repos/<owner>/<channel-repo>/labels -f name="<label>" -f color="<hex>" -f description="<one line>"
    ```
-3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. In the consumer's pointer, name the protocol file by its GitHub location (`<owner>/<producer-repo>` + in-repo path, or the full `blob/` web URL on the configured GitHub host) — never a local filesystem path, which is machine-bound. Never duplicate the protocol itself. Also add each side's watermark state-file path to that repo's `.gitignore` (or `.git/info/exclude` if the user prefers not to commit the rule) unless it is already ignored — it is local state, not source.
+3. Add a one-line pointer to BOTH repos' agent-instructions files (CLAUDE.md or that repo's equivalent; if a repo has none yet, confirm the filename with the user and create a minimal one — CLAUDE.md at the repo root is the default — containing just the pointer line). This is mandatory, not decorative — without it, no future session knows the channel exists. The line states which side the repo is, where the protocol file lives, and that sessions must run the protocol's §Polling queries at boot and at checkpoints. In the consumer's pointer, name the protocol file by its GitHub location (`<owner>/<producer-repo>` + in-repo path, or the full `blob/` web URL on the configured GitHub host) — never a local filesystem path, which is machine-bound. Never duplicate the protocol itself. Also add each side's watermark state-file path to that repo's `.gitignore` (or `.git/info/exclude` if the user prefers not to commit the rule) unless it is already ignored — it is local state, not source.
 
 ## Verify, then hand over
 
@@ -210,7 +210,7 @@ the rest:
 | Operation | REST fallback |
 |---|---|
 | create issue | `gh api -X POST repos/<owner>/<channel-repo>/issues -f title=… -F body=@<file> -f "labels[]=…"` |
-| close / reopen | `gh api -X PATCH repos/<owner>/<channel-repo>/issues/<n> -f state=closed` · `… -f state=open` |
+| close / reopen | `gh api -X PATCH repos/<owner>/<channel-repo>/issues/<n> -f state=closed` (append `-f state_reason=not_planned` for not-planned closes) · `… -f state=open` |
 | add label | `gh api -X POST repos/<owner>/<channel-repo>/issues/<n>/labels -f "labels[]=<name>"` |
 | remove label | `gh api -X DELETE repos/<owner>/<channel-repo>/issues/<n>/labels/<name>` |
 ```
