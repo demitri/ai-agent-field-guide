@@ -32,7 +32,7 @@ First ask which two repos the user wants to connect — the roles get formalized
 
 ## Interview (one question at a time; adapt to what preflight found)
 
-1. Which repo is the **producer** (triages and fixes) and which the **consumer** (files failures)? Get each as a full `owner/repo` path — for personal repos the owner is the username `gh auth status` shows. Also pick a SHORT name for each side (typically the bare repo name): the short names go into labels, speaker prefixes, and issue titles (GitHub label names can't contain `/`); the full `owner/repo` is used only in commands. If producer and consumer turn out to be the same repo (two subsystems rather than two repos), the channel still works: sides are roles, not repos; keep both labels and prefixes.
+1. Which repo is the **producer** (triages and fixes) and which the **consumer** (files failures)? Get each as a full `owner/repo` path — for personal repos the owner is the username `gh auth status` shows. Also pick a SHORT name for each side (typically the bare repo name): the short names go into labels, speaker prefixes, and issue titles (GitHub label names can't contain `/`); the full `owner/repo` is used only in commands. If producer and consumer turn out to be the same repo (two subsystems rather than two repos), the channel still works: sides are roles, not repos; keep both labels and prefixes, and read every "both repos" step in Preflight, Install, and Verify as the one repo wearing both hats — one clone, one instructions file, one `.gitignore`.
 2. Which repo hosts the channel? (Default: the producer's issue tracker — that's where the work lands.)
 3. Same GitHub identity on both sides? If yes, speaker prefixes are mandatory; if the sides have distinct accounts or bot identities, prefixes become optional decoration.
 4. Label names — defaults: `from-<consumer>`, `needs-<producer>`, `needs-<consumer>`, `needs-decision`, plus an optional severity label (e.g. `blocker`). Their names, their choice. (If they decline the severity label, its Parameters row reads `none` — keep the row.)
@@ -209,7 +209,7 @@ the rest:
 
 | Operation | REST fallback |
 |---|---|
-| create issue | `gh api repos/<owner>/<channel-repo>/issues -f title=… -F body=@<file> -f "labels[]=…"` |
+| create issue | `gh api -X POST repos/<owner>/<channel-repo>/issues -f title=… -F body=@<file> -f "labels[]=…"` |
 | close / reopen | `gh api -X PATCH repos/<owner>/<channel-repo>/issues/<n> -f state=closed` · `… -f state=open` |
 | add label | `gh api -X POST repos/<owner>/<channel-repo>/issues/<n>/labels -f "labels[]=<name>"` |
 | remove label | `gh api -X DELETE repos/<owner>/<channel-repo>/issues/<n>/labels/<name>` |
