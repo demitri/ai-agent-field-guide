@@ -20,7 +20,7 @@ Decision rule: proceed only if 2 and 3 are both yes — the protocol's verificat
 
 ## Preflight (stop on any failure and say what's missing)
 
-First ask which two repos the user wants to connect — the roles get formalized in the Interview, but the checks below need concrete targets now.
+First ask which two repos the user wants to connect and which of them will host the channel issues (most pick the repo that does the fixing; the roles get formalized in the Interview) — the checks below need concrete targets now.
 
 - `gh auth status` — if `gh` is absent or unauthenticated, stop: name the tool, what it's for (all channel traffic flows through it), and let the user install or authenticate before resuming. Note which identity each side will act as, and whether the user is on github.com or a GitHub Enterprise host. On GHES, authenticate `gh` against that hostname and have every session export `GH_HOST=<host>` — that routes both `gh issue` and `gh api` commands to the instance (a bare `gh api repos/…` otherwise targets github.com).
 - Confirm issues are enabled on the intended channel repo — and capture its visibility in the same probe: `gh api repos/<owner>/<repo> --jq '{has_issues: .has_issues, private: .private}'`. If `has_issues` is `false`, stop: the user enables them under repo Settings → General → Features → Issues. `private: true` means the public-repo conditional in the skeleton resolves to "drop".
@@ -39,7 +39,7 @@ First ask which two repos the user wants to connect — the roles get formalized
 5. Pin down the **deploy signal** confirmed in step 0: the exact command and the field or header it reads. Never invent one — without it the close protocol cannot carry deploy evidence, and the install must not proceed. Pin the **consumer retest command** (or its shape) at the same time — it fills the Consumer retest parameter and the `## Verification` template carried in every filed issue.
 6. Who answers `needs-decision`? (Usually the user themselves, replying in the issue thread.)
 7. Where do agent-facing docs live in each repo (a docs/ or AI/ directory, or the repo root)? The protocol file goes in the producer repo's; both repos get a pointer.
-8. Confirm the watermark state-file path each side will use (default: `.claude/issue-channel-state` inside that side's repo, untracked) — it's a Parameters-table entry, so it must be settled before writing.
+8. Confirm the watermark state-file path each side will use (default: `.claude/issue-channel-state` inside that side's repo, untracked) — it's a Parameters-table entry, so it must be settled before writing. In the same-repo case the two paths MUST differ (e.g. `…-state-producer` / `…-state-consumer`), or the sides clobber each other's watermark.
 
 ## Invariants vs. choices
 
@@ -56,8 +56,8 @@ Everything else — label names, polling cadence, severity tiers, how each side 
 
 ## Install
 
-1. Adapt the skeleton below with the interview answers. Fill every placeholder the interview answered — sides and short names, `owner/repo`, GitHub host, labels, deploy signal, retest command, who answers the escalation label, watermark paths, file location; none of those may survive into the written file. Placeholders that stand for values a *future session* supplies at runtime stay as-is: `<side>`, issue numbers (`<n>`), dates (`<YYYY-MM-DD>`), the format fields in titles, body sections, handback lines, and the provenance line (`<class>`, `<single next action>`, `<repo> @ <commit>`, …), and the command arguments in the §gh fallback table (`<file>`, `<name>`). The two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) resolve per the preflight answers: to keep one, keep only its body text (drop the `<If …:` prefix and the closing `>`); to drop one, remove the whole construct. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
-2. Create the labels idempotently: list existing labels first (`gh api -X GET repos/<owner>/<channel-repo>/labels`), create only the missing ones (the creation command below POSTs — make that explicit with `-X POST`) — run the command below once per missing label from the Parameters table, including the origin label (skip the Severity row if its value is `none`). A 422 response is benign only if its body says the label already exists — any other error stops the install per the standing rule. Never change an existing label's color or description without asking. Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`.
+1. Adapt the skeleton below with the interview answers. Fill every placeholder the interview answered — sides and short names, `owner/repo`, GitHub host, labels, deploy signal, retest command, who answers the escalation label, watermark paths, file location; none of those may survive into the written file. Placeholders that stand for values a *future session* supplies at runtime stay as-is: `<side>`, issue numbers (`<n>`), dates (`<YYYY-MM-DD>`), the format fields in titles, body sections, handback lines, and the provenance line (`<class>`, `<single next action>`, `<repo> @ <commit>`, …), and the command arguments in the §gh fallback table (`<file>`, `<name>`). The two marked conditionals (`<If both sides share one GitHub identity: …>`, `<If the channel repo is public: …>`) resolve per the preflight answers: to keep one, keep only its body text (drop the `<If …:` prefix and the closing `>`); to drop one, remove the whole construct. The stricter-terms slot at the end of Principle 3 is filled with the redaction terms agreed at preflight, or removed if there were none. Show the full adapted text, get approval, then write it to the agreed location in the producer repo as the **single file of record**.
+2. Create the labels idempotently: list existing labels first (`gh api -X GET repos/<owner>/<channel-repo>/labels --paginate` — without `--paginate` the API silently returns only the first 30), create only the missing ones (the creation command below POSTs — make that explicit with `-X POST`) — run the command below once per missing label from the Parameters table, including the origin label (skip the Severity row if its value is `none`). A 422 response is benign only if its body says the label already exists — any other error stops the install per the standing rule. Never change an existing label's color or description without asking. Suggested colors (theirs to change): origin `e4e669`, `needs-<producer>` `d93f0b`, `needs-<consumer>` `0e8a16`, `needs-decision` `0075ca`, severity `b60205`.
    ```bash
    gh api -X POST repos/<owner>/<channel-repo>/labels -f name="<label>" -f color="<hex>" -f description="<one line>"
    ```
@@ -98,8 +98,9 @@ until each issue's cases clear. No human copies anything between machines.
 3. Evidence over assertion. Any state claim — "fixed", "live", "cleared" —
    carries the command and verbatim output that demonstrates it. Evidence
    is redacted per the rule agreed at install: never secrets, tokens, or
-   customer data. <If the channel repo is public: nor private paths or
-   internal hostnames.>
+   customer data<If the channel repo is public:, nor private paths or
+   internal hostnames><; plus any stricter terms agreed at install, or
+   drop this clause>.
 4. One issue per failure class, not per instance. New cases in a known
    class arrive as comments on the existing issue.
 
