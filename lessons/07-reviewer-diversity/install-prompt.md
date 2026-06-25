@@ -11,10 +11,10 @@ You (Claude) are extending the user's review loop with a panel of diverse review
 1. **Inventory the available reviewers.** Same-vendor models via subagents (e.g. sonnet/opus alongside an opus author) work immediately. For cross-vendor: do they have access to another vendor's coding agent (e.g. OpenAI's codex CLI)? If codex is installed, offer to register it as an MCP server, read-only:
 
    ```bash
-   claude mcp add codex-reviewer -- codex -c approval_policy=never -c sandbox_mode=read-only mcp-server
+   claude mcp add -s user codex-reviewer -- codex -c approval_policy=never -c sandbox_mode=read-only mcp-server
    ```
 
-   Adapt for whatever agent they have; the requirements are: it can read the repo, it cannot write, and it can be driven programmatically.
+   `-s user` registers it globally rather than per-project. Adapt for whatever agent they have; the requirements are: it can read the repo, it cannot write, and it can be driven programmatically. For the codex flags, sandbox dependency, and auth in depth, see [Lesson 17](../17-codex-reviewer-setup/LESSON.md).
 
 2. **Discuss panel roles.** Different models reliably notice different things; suggest they let each reviewer's role emerge from observed strengths over a few cycles rather than assigning roles up front.
 
