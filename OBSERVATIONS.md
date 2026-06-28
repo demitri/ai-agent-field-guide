@@ -38,11 +38,11 @@ Meta-insights about working with agents, collected as they surface during this p
 
 18. **Ship prompts, not templates.** A config template with `[placeholders]` needs a human hand and ships one user's assumptions. An agent-directed install prompt is self-localizing: the recipient's own agent inspects their system, interviews them, and adapts — and the deliverable is consumed through the very tool being taught.
 
-19. **Name artifacts for their primary reader.** `AI Notes/` was the human-friendly name; the space tripped up agents — and the agent is who the directory is for, so it became `AI/`. Files that exist for agents get machine-friendly names, formats, and locations; human aesthetics yield to the actual consumer. (Lesson 12.)
+19. **Name artifacts for their primary reader.** `AI Notes/` was the human-friendly name; the space tripped up agents — and the agent is who the directory is for, so it became `AI/`. Files that exist for agents get machine-friendly names, formats, and locations; human aesthetics yield to the actual consumer. (Lesson 1.)
 
-20. **One-time fixes are dead weight in durable instructions.** Folding a pending migration into an install prompt means every future run carries an instruction that can never fire again. Ship one-off prompts for one-off work; durable artifacts state only what stays true. (Lesson 12.)
+20. **One-time fixes are dead weight in durable instructions.** Folding a pending migration into an install prompt means every future run carries an instruction that can never fire again. Ship one-off prompts for one-off work; durable artifacts state only what stays true. (Lesson 1.)
 
-21. **A boundary nobody draws gets drawn by accident.** The AI/-vs-memory filing decision was left to each session's agent; one agent even wrote down its own rule, and practice still drifted until memory absorbed the repo's job. Recurring filing decisions need a written criterion — the clone test — or every agent re-derives a different one. (Lesson 12.)
+21. **A boundary nobody draws gets drawn by accident.** The AI/-vs-memory filing decision was left to each session's agent; one agent even wrote down its own rule, and practice still drifted until memory absorbed the repo's job. Recurring filing decisions need a written criterion — the clone test — or every agent re-derives a different one. (Lesson 1.)
 
 22. **The agent won't ask — it will keep trying until it gets it.** A guess loop on a defined quantity (schema, API, config) is locally rational at every step: each error message feels like partial progress, so the loop has no natural exit, and asking feels like defeat. The exit condition has to be installed from outside: stop after the first miss; find the definition or ask. (Lesson 13.)
 

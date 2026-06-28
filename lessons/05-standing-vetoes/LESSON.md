@@ -10,7 +10,7 @@ The fix is two sentences in the global CLAUDE.md: never use `brew` commands; sof
 
 ## Why it works
 
-This is [Lesson 1](../01-repo-location-convention/LESSON.md)'s negative-space twin. That lesson declared facts the agent can't discover; this one declares *refusals* the agent can't predict. Without the rule, the agent defaults to the most common path in its training data — and on macOS that's Homebrew, regardless of what's true on your machine.
+This is [Lesson 12](../12-repo-location-convention/LESSON.md)'s negative-space twin. That lesson declared facts the agent can't discover; this one declares *refusals* the agent can't predict. Without the rule, the agent defaults to the most common path in its training data — and on macOS that's Homebrew, regardless of what's true on your machine.
 
 Two details make the rule effective:
 

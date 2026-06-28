@@ -1,0 +1,7 @@
+# Pushover credentials, sourced by the `pushover` script.
+# Copy to ~/.config/pushover/config and chmod 600.
+# Get both values from https://pushover.net (USER is your user key;
+# TOKEN is an application/API token you register there).
+# The script refuses to send while either is still REPLACE_ME.
+PUSHOVER_TOKEN="REPLACE_ME"
+PUSHOVER_USER="REPLACE_ME"

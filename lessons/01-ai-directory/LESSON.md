@@ -1,4 +1,4 @@
-# Lesson 12: A front door for agents — the `AI/` directory
+# Lesson 1: A front door for agents — the `AI/` directory
 
 **Artifact:** [`install-prompt.md`](install-prompt.md) — itself the auto-installer the owner had long meant to build.
 

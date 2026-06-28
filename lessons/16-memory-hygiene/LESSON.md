@@ -4,12 +4,12 @@
 
 ## The discovery: line numbers in a diff
 
-The owner was reading a session's work output — trace-reading again (Lesson 13) — and saw the agent update `MEMORY.md`. The diff's line numbers were *very* high. He opened the file: over months of sessions, the agent had been growing it without limit. Every entry had been written in good faith; the sum was a bloated always-loaded file — the most expensive kind of bloat there is, because `MEMORY.md` is paid by every session before any work begins (Lesson 12's pricing tiers).
+The owner was reading a session's work output — trace-reading again (Lesson 13) — and saw the agent update `MEMORY.md`. The diff's line numbers were *very* high. He opened the file: over months of sessions, the agent had been growing it without limit. Every entry had been written in good faith; the sum was a bloated always-loaded file — the most expensive kind of bloat there is, because `MEMORY.md` is paid by every session before any work begins (Lesson 1's pricing tiers).
 
 An audit found three classes of cruft, worth naming because they're what *any* agent-maintained memory accumulates:
 
 1. **Stale** — information that was true once and nobody retired.
-2. **Misfiled** — project knowledge that belonged in the repo proper, where `START_HERE.md` could point to it (the clone-test violation of Lesson 12).
+2. **Misfiled** — project knowledge that belonged in the repo proper, where `START_HERE.md` could point to it (the clone-test violation of Lesson 1).
 3. **Verbose** — examples and notes that could be rewritten far tighter without losing intent.
 
 ## Why "keep it organized" doesn't work
@@ -36,7 +36,7 @@ Over the threshold, every new session opens with a system message naming the pro
 
 The threshold isn't arbitrary: it tracks a documented **hard limit**. Claude Code loads only the first 200 lines or 25KB of `MEMORY.md`, whichever comes first; content beyond that is *silently not loaded* (as of June 2026). Which means a bloated MEMORY.md is worse than expensive — past the cliff, the tail is invisible. Entries the agent diligently wrote are simply never seen again, with no error and no sign. The harness itself silently skips content (Lesson 3's villain, appearing in the infrastructure), and the tripwire is what makes that loss announce itself. Set the threshold at or just under the cliff so the warning fires *before* truncation starts, and watch the line count too — 200 lines can arrive before 25KB does.
 
-Upstream, Lesson 12's clone test is the prevention: when durable project knowledge goes to `AI/` instead of memory, memory keeps a naturally small job and the hook becomes a backstop instead of a treadmill.
+Upstream, Lesson 1's clone test is the prevention: when durable project knowledge goes to `AI/` instead of memory, memory keeps a naturally small job and the hook becomes a backstop instead of a treadmill.
 
 ## The generalizable principle
 

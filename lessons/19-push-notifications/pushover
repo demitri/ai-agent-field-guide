@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Send a Pushover notification.
+# Usage: pushover [-p priority] [-t title] [-u url] message...
+set -euo pipefail
+
+CONFIG="$HOME/.config/pushover/config"
+if [[ ! -r "$CONFIG" ]]; then
+    echo "pushover: missing config file $CONFIG" >&2
+    exit 1
+fi
+# shellcheck source=/dev/null
+source "$CONFIG"
+
+if [[ "${PUSHOVER_TOKEN:-REPLACE_ME}" == "REPLACE_ME" || "${PUSHOVER_USER:-REPLACE_ME}" == "REPLACE_ME" ]]; then
+    echo "pushover: credentials not set in $CONFIG" >&2
+    exit 1
+fi
+
+priority=0
+title="Claude Code"
+url=""
+
+while getopts "p:t:u:" opt; do
+    case "$opt" in
+        p) priority="$OPTARG" ;;
+        t) title="$OPTARG" ;;
+        u) url="$OPTARG" ;;
+        *) exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -eq 0 ]]; then
+    echo "usage: pushover [-p priority] [-t title] [-u url] message..." >&2
+    exit 2
+fi
+
+args=(
+    --form-string "token=$PUSHOVER_TOKEN"
+    --form-string "user=$PUSHOVER_USER"
+    --form-string "title=$title"
+    --form-string "priority=$priority"
+    --form-string "message=$*"
+)
+[[ -n "$url" ]] && args+=(--form-string "url=$url")
+
+response=$(curl -fsS "${args[@]}" https://api.pushover.net/1/messages.json)
+if [[ "$response" != *'"status":1'* ]]; then
+    echo "pushover: API error: $response" >&2
+    exit 1
+fi

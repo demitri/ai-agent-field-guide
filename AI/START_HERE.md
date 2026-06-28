@@ -2,7 +2,7 @@
 
 **What this is:** `claude-wisdom` — conventions, rules, and skills for working with AI agents, distilled from daily use of Claude Code and collected so the lessons can be taught. Prime directive: *fail fast, fail loud.* Audience is both humans (the lecture) and agents (the install prompts).
 
-**State:** 18 lessons in `lessons/`, one featured highlight (the issue channel). Actively growing; queued topics in `TODO.md`.
+**State:** 19 lessons in `lessons/`, one featured highlight (the issue channel). Actively growing; queued topics in `TODO.md`.
 
 ## The map
 

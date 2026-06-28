@@ -27,7 +27,7 @@ That sequencing is also why the output is trustworthy: every guardrail and test 
 - **Turn-taking by label.** Both sides authenticate as the same GitHub user, so authorship cannot identify the speaker: every comment opens with a speaker prefix (`**[consumer]**` / `**[producer]**`), exactly one `needs-<side>` label marks whose move it is, and every comment ends with a handback line — `→ producer: <single next action>`.
 - **`needs-decision` is the human's channel.** The owner wasn't removed from the loop; he was promoted — from copy-paste IPC to the arbiter both fleets escalate to, answering in the issue thread. (Lesson 6's promotion, one level up.)
 - **Polling, no webhooks, no daemons.** Two queries at session boot and at checkpoints; the protocol file says it plainly: *"do not add infrastructure before then."* (Lesson 4.)
-- **A parameters table instead of a framework.** Everything pair-specific lives in one table, with an explicit instruction to extract a reusable skeleton only when a second repo pair adopts the scheme — not before. (Lesson 12's dead-weight principle.)
+- **A parameters table instead of a framework.** Everything pair-specific lives in one table, with an explicit instruction to extract a reusable skeleton only when a second repo pair adopts the scheme — not before. (Lesson 1's dead-weight principle.)
 
 Underneath runs a second, fully mechanical channel: the consumer auto-POSTs failure telemetry to a producer HTTP endpoint, with a skip-set for error codes the producer already tracks. Two channels at two speeds — HTTP for telemetry, issues for conversation.
 

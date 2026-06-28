@@ -1,6 +1,6 @@
 <!-- Human: paste this file into a Claude Code session (or @-reference it)
      and Claude will extend your repository-location rule across machines.
-     Prerequisite: the rule from Lesson 1 (a declared repo root / $GH-style
+     Prerequisite: the rule from Lesson 12 (a declared repo root / $GH-style
      variable). Background: LESSON.md alongside this file. -->
 
 # Setup task: extend the repo-root convention across machines
@@ -9,7 +9,7 @@ You (Claude) are making the user's repository-location convention portable. The 
 
 ## Steps
 
-1. **Check the prerequisite.** Read `~/.claude/CLAUDE.md` for an existing repository-location rule. If none exists, set that up first (Lesson 1's install prompt) — don't proceed without it.
+1. **Check the prerequisite.** Read `~/.claude/CLAUDE.md` for an existing repository-location rule. If none exists, set that up first (Lesson 12's install prompt) — don't proceed without it.
 
 2. **Interview the user, one question at a time:**
    - What other machines or accounts do they work from (other computers, servers, Linux accounts)?

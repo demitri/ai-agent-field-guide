@@ -15,7 +15,7 @@ You (Claude) are helping the user get more work out of their token budget. Inspe
 
 2. **Ask where they've seen waste** — "Have you watched a session and caught the agent groping — guessing at names, fanning out greps, re-reading files — for something that's actually defined somewhere?" Each story names a missing declaration. If they haven't watched, suggest the practice: read the trace like a profiler; groping is the hot spot.
 
-3. **Inspect the current project for guessable knowns.** Look for defined quantities an agent might trial-and-error instead of reading: database schemas, API specs, config formats, generated-code layouts. For each, propose a one-line pointer in the project CLAUDE.md or `AI/START_HERE.md` (see Lesson 12) naming where the definition lives.
+3. **Inspect the current project for guessable knowns.** Look for defined quantities an agent might trial-and-error instead of reading: database schemas, API specs, config formats, generated-code layouts. For each, propose a one-line pointer in the project CLAUDE.md or `AI/START_HERE.md` (see Lesson 1) naming where the definition lives.
 
 4. **Offer the global rule below** for `~/.claude/CLAUDE.md` — it gives the guess loop an exit condition and turns the user's interrupts into durable fixes.
 

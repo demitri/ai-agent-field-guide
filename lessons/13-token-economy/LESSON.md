@@ -8,7 +8,7 @@ The owner runs on a Claude subscription and hits rate limits constantly. That ch
 
 ## The discipline was already everywhere
 
-Once you look for it, token economy turns out to be the quiet second motive behind half this collection: always-loaded files kept deliberately small (Lesson 16's memory tripwire, set just under the harness's 25KB load cliff), `START_HERE.md` as a routing page instead of a briefing book (Lesson 12's three tiers, three prices), searches and DB queries delegated to disposable subagent contexts so only conclusions return, the expired-cache economics of idle sessions (Lesson 11), the N>50 rule forcing a stated cost before bulk work (Lesson 4). This lesson is about the practice that *finds the next one*.
+Once you look for it, token economy turns out to be the quiet second motive behind half this collection: always-loaded files kept deliberately small (Lesson 16's memory tripwire, set just under the harness's 25KB load cliff), `START_HERE.md` as a routing page instead of a briefing book (Lesson 1's three tiers, three prices), searches and DB queries delegated to disposable subagent contexts so only conclusions return, the expired-cache economics of idle sessions (Lesson 11), the N>50 rule forcing a stated cost before bulk work (Lesson 4), directed compaction reclaiming context budget from long orchestrator sessions without smearing the state that matters ([Lesson 18](../18-orchestrator-compaction/LESSON.md)). This lesson is about the practice that *finds the next one*.
 
 ## Reading traces like a profiler
 
@@ -20,7 +20,7 @@ The fix, in the moment, was an interrupt: stop, *the schema is defined — use i
 
 ## Every grope is a missing declaration
 
-That's the loop this lesson teaches. Groping in a trace is not (usually) an agent defect — it's a *diagnostic*: some fact the agent needed had no declared home, so it paid search prices for it. The interrupt fixes the moment; writing the pointer down (a CLAUDE.md line, a `START_HERE.md` entry, a subagent) fixes the class. Lesson 1 said environment facts are the cheapest tokens you'll ever spend; the trace is how you find out which fact to spend them on. Each interrupt should be paid exactly once.
+That's the loop this lesson teaches. Groping in a trace is not (usually) an agent defect — it's a *diagnostic*: some fact the agent needed had no declared home, so it paid search prices for it. The interrupt fixes the moment; writing the pointer down (a CLAUDE.md line, a `START_HERE.md` entry, a subagent) fixes the class. Lesson 12 said environment facts are the cheapest tokens you'll ever spend; the trace is how you find out which fact to spend them on. Each interrupt should be paid exactly once.
 
 The owner's standing wish is for the agent to pick these solutions up itself — and that's encodable. The artifact ships a rule with two halves: *stop after the first miss on a defined quantity* (schemas, API signatures, config keys — find the definition or ask; never trial-and-error a known), and *treat the user's interrupt as a signal that a pointer is missing* — offer to record it durably so no future session needs the same interrupt.
 

@@ -1,4 +1,4 @@
-# Lesson 1: Declare where your code lives
+# Lesson 12: Declare where your code lives
 
 **Artifact:** [`install-prompt.md`](install-prompt.md) — paste it into a Claude Code session and the agent sets this up, adapted to your machine.
 

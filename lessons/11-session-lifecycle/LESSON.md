@@ -18,6 +18,8 @@ There's a hidden economics, too: a long-idle session's server-side prompt cache 
 
 A session's value concentrates at its end — and evaporates at close unless deliberately extracted. Ritualize both exits: the clean close audits for value that exists only in the conversation; the suspend writes a hand-off good enough that a new context can impersonate the old one. The conversation is scaffolding; the artifact is the work.
 
+When a session must *keep going* rather than close — its live role is the value, so it can't be parked — the same succession-document instinct becomes in-place compaction: see [Lesson 18](../18-orchestrator-compaction/LESSON.md).
+
 ---
 
 ## From the other side of the prompt

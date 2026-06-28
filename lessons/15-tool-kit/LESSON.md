@@ -18,7 +18,7 @@ The encodable rule has an **invariant** and a **preference**. The invariant: the
 
 ## The generalizable principle
 
-Trust the reach; fix the fallback. An agent's first choice of tool encodes real knowledge about how the job is done well — the bug is only in what happens when that choice is unavailable. Give the fallback chain an exit ramp ("stop and name it"), decide once who does the installing, and your machine's toolkit assembles itself, one honest stop at a time.
+Trust the reach; fix the fallback. An agent's first choice of tool encodes real knowledge about how the job is done well — the bug is only in what happens when that choice is unavailable. Give the fallback chain an exit ramp ("stop and name it"), decide once who does the installing, and your machine's toolkit assembles itself, one honest stop at a time. The same install-once economics extend past tools to *capabilities* you bolt on deliberately — see [Lesson 19](../19-push-notifications/LESSON.md), where a one-time script-plus-allowlist buys an out-of-band push channel.
 
 ---
 
