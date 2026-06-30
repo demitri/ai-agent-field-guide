@@ -22,6 +22,7 @@ Each lesson lives in `lessons/NN-short-name/` and contains exactly two kinds of 
 Top-level companions:
 
 - **`highlights/`** — working systems built from the lessons (write-up + install prompt, same pair structure), featured on this page.
+- **`tools/`** — practical utilities that emerged from this work; each has an `install-prompt.md` so a fresh session can wire them up on a new machine.
 - **`TODO.md`** — lecture topics queued for development.
 - **`OBSERVATIONS.md`** — meta-insights about working with agents, collected as they surface; the lecture's connective tissue.
 - **`notes/`** — raw working material (surveys, sweeps, the process log) that lessons are distilled from; not itself shareable.
@@ -47,3 +48,9 @@ Top-level companions:
 17. [Codex as a read-only reviewer](lessons/17-codex-reviewer-setup/LESSON.md) — pressing a coding agent into a reviewer role means dropping its human gate *and* its capacity to act; `never` is safe only while `read-only` is enforceable, and where the OS can't build the sandbox (containers/VPS) the interlock moves to the machine boundary — a conscious fallback, not a convenience.
 18. [Compact orchestrators, don't summarize them](lessons/18-orchestrator-compaction/LESSON.md) — when a session quietly becomes the live state of a multi-session program, default `/compact` smears the irreplaceable loop at the same rate as detail already safe in the repo; direct it in tiers by where each fact is recoverable from, and test the result against the orchestrator's one job.
 19. [Own the channel that reaches you](lessons/19-push-notifications/LESSON.md) — the harness can push to your phone, but its phone leg needs the app paired — which fails in the one case you wanted it, after you've walked away. A `pushover` script, a credential, one pre-authorization: an out-of-band push that any tool can fire and no session needs to be alive to receive.
+
+## Tools
+
+Practical utilities built alongside the lessons. Each directory has an `install-prompt.md` — paste it into a Claude Code session to install, adapted to your machine.
+
+- [**ccusage sync + plot**](tools/ccusage/install-prompt.md) — pipes `npx ccusage --json` into SQLite daily (idempotent upsert, cron + Pushover staleness alert) and plots cost by model and token volume by provider with matplotlib. Solves the problem where `ccusage` only shows history as far back as your local session logs survive.
