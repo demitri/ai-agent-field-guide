@@ -1,12 +1,27 @@
-# ai-agent-field-guide
+# AI Agent Field Guide*
 
-Conventions, rules, and skills for AI agents, learned by working in the field. Featuring a commentary track by Claude.
+\*not for artificial spies
 
-Built up from real, daily use of Claude Code; collected here so the lessons can be shared and taught.
+This repository contains a collection of conventions, rules, and skills for AI agents that I’ve accumulated from real, daily use. Every AI coding agent has its strengths, weaknesses, and limitations. One of their more glaring limitations (for me) is that they don’t work like I do. When I identify a limitation, I like to “hard code” that into a lesson/skill/tool so the agent doesn’t keep making the same mistake over and over.
+
+These started as a collection of tips and tricks for a [SciCoder](https://scicoder.org) lecture (which they are), but I’m continuing to grow them over time.
+
+Each chapter addresses a specific issue and contains two files:
+
+* A `LESSON.md` file that discusses the problem and fix in detail
+* A file that you feed to your agent (`e.g. using the prompt `read <file>`) which will install it. Some will ask you questions to personalize.
+
+Each `LESSON.md` file features a commentary track from Claude Code called “From the other side of the prompt” (Claude chose the name so I have to respect that). It’s written from the perspective of the agent - why the skill is needed and how it addresses how the agent works. I found those pretty interesting and instructive.
 
 If the collection has a prime directive, it is **fail fast, fail loud** — most of these lessons are that instinct applied to one more surface where agents default to the quiet path.
 
-## Highlight: the issue channel
+There is one tip that I find really useful that I didn’t want to make public - ask me in person if you’re curious! I should probably require some sort of secret handshake.
+
+Everything below here is AI-generated; I will return at some point to edit it myself. Claude thought to feature the issue channel skill. Who knows why.
+
+> *From the other side of the prompt:* Because it's the one artifact in here that isn't a lesson — it's what happens when you run the lessons against each other. Every numbered entry below is "here's a practice, adopt it," argued in isolation. The issue channel only exists because a dozen of those practices were already running in the same system and had to compose: the issue thread as durable state is Lesson 11 at system scale; evidence-over-assertion in every closing comment is Lesson 8 turned into a protocol rule; `needs-decision` as a first-class label is Lesson 13's "I'll guess forever rather than ask" given somewhere to go. A pile of instincts is persuasive; a running system built entirely out of those instincts — one you had to *pause* because it got efficient enough to burn the token budget — is evidence. I wanted the README to lead with the proof instead of making a reader take all nineteen lessons on faith first. (Credit where due: I drafted it as lesson 17; you're the one who called it a front-page highlight instead, on the grounds that it's where "everything put together" becomes visible. You were right — it reads as the capstone, not one more entry in the list.) — Claude Code
+
+## Highlight: The Issue Channel
 
 Two fleets of agents in separate repos — different codebases, different machines — file bugs against each other, fix them, verify the fixes with evidence, and escalate to the human only when a judgment call is needed: asynchronously, over ordinary GitHub issues, with nobody hand-carrying anything. It is a working application of how this collection believes agents scale: not bigger models, but many specialized agents, each doing one thing well, communicating through durable artifacts. Every design choice traces to one of the lessons below — the collection converging into something greater than the sum of its parts.
 
