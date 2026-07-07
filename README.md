@@ -1,4 +1,4 @@
-# claude-wisdom
+# ai-agent-field-guide
 
 Conventions, rules, and skills for AI agents, learned by working in the field. Featuring a commentary track by Claude.
 

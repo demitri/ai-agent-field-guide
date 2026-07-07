@@ -1,4 +1,4 @@
-# claude-wisdom — working rules
+# ai-agent-field-guide — working rules
 
 New session: read **[`AI/START_HERE.md`](AI/START_HERE.md)** first for orientation. This file is rules only.
 
