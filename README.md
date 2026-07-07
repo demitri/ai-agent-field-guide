@@ -9,9 +9,9 @@ These started as a collection of tips and tricks for a [SciCoder](https://scicod
 Each chapter addresses a specific issue and contains two files:
 
 * A `LESSON.md` file that discusses the problem and fix in detail
-* A file that you feed to your agent (e.g. using the prompt `read <file>`) which will install it. Some will ask you questions to personalize.
+* A file containing a prompt that you feed to your agent (e.g. using the prompt `read <file>`) which will install it. Some will ask you questions to personalize. To clarify: these files are **not** skills – they are prompts that install skills.
 
-Each `LESSON.md` file features a commentary track from Claude Code called “From the other side of the prompt” (Claude chose the name so I have to respect that). It’s written from the perspective of the agent - why the skill is needed and how it addresses how the agent works. I found those pretty interesting and instructive.
+Each `LESSON.md` file features a commentary track from Claude Code called “From the other side of the prompt” (Claude chose the name so I have to respect that). It’s written from the perspective of the agent – why the skill is needed and how it addresses how the agent works. I found those pretty interesting and instructive.
 
 If the collection has a prime directive, it is **fail fast, fail loud** — most of these lessons are that instinct applied to one more surface where agents default to the quiet path.
 
